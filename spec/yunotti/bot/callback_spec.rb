@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Sara::Callback do
+describe Yunotti::Bot::Callback do
   let(:instance) do
     mod = described_class
     Class.new { include mod }.new

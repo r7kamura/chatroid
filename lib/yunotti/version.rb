@@ -1,3 +1,3 @@
-module Sara
+module Yunotti
   VERSION = "0.0.1"
 end
