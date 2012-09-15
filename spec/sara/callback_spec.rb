@@ -1,8 +1,9 @@
 require "spec_helper"
 
-describe Sara do
+describe Sara::Callback do
   let(:klass) do
-    Class.new { include Sara }
+    mod = described_class
+    Class.new { include mod }
   end
 
   describe ".included" do
