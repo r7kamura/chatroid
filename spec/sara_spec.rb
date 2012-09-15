@@ -11,44 +11,54 @@ describe Sara do
     end
   end
 
-  describe ".on_message" do
+  describe ".on_xxx" do
     it "should store given block as callback" do
       expect do
-        klass.on_message { }
-      end.to change { klass.on_messages.size }.by(1)
+        klass.on_xxx {}
+      end.to change { klass.list_xxx.size }.by(1)
     end
   end
 
-  describe ".on_messages" do
-    context "when no callback is stored" do
+  describe ".list_xxx" do
+    context "before .on_xxx is called" do
       it do
-        klass.on_messages.should have(0).callback
+        klass.list_xxx.should have(0).callback
       end
     end
 
-    context "when a callback is stored" do
+    context "after .on_yyy is called" do
       before do
-        klass.on_message { }
+        klass.on_yyy {}
       end
 
       it do
-        klass.on_messages.should have(1).callback
+        klass.list_xxx.should have(0).callback
+      end
+    end
+
+    context "after .on_xxx is called" do
+      before do
+        klass.on_xxx {}
+      end
+
+      it do
+        klass.list_xxx.should have(1).callback
       end
     end
   end
 
-  describe ".do_message" do
-    it "should trigger all callbacks registered as on_message" do
+  describe ".trigger_xxx" do
+    it "should trigger all callbacks for xxx" do
       callback = proc {}
       callback.should_receive(:call)
-      klass.stub(:on_messages) { [callback] }
-      klass.do_message(mock)
+      klass.on_xxx(&callback)
+      klass.trigger_xxx
     end
 
-    it "should trigger callbacks with given message" do
-      message = mock
-      klass.on_message { |callback| callback.should == message }
-      klass.do_message(message)
+    it "should trigger callbacks with given args" do
+      args = mock
+      klass.on_xxx { |block_args| block_args.should == args }
+      klass.trigger_xxx(args)
     end
   end
 end
