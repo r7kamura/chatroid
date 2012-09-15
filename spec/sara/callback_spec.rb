@@ -8,9 +8,9 @@ describe Sara::Callback do
 
   describe ".on_xxx" do
     it "should store given block as callback" do
-      expect do
-        instance.on_xxx {}
-      end.to change { instance.list_xxx.size }.by(1)
+      callback = proc {}
+      instance.on_xxx(&callback)
+      instance.list_xxx.should == [callback]
     end
   end
 
