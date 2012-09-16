@@ -37,4 +37,11 @@ describe Chatroid::Adapter::Twitter do
       chatroid.send(:favorite, "id" => "1")
     end
   end
+
+  describe "#follow" do
+    it "should call TwitterOAuth::Client#friend with id" do
+      TwitterOAuth::Client.any_instance.should_receive(:friend).with("1")
+      chatroid.send(:follow, "user" => { "id" => "1" })
+    end
+  end
 end

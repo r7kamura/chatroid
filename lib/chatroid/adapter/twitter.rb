@@ -55,6 +55,10 @@ class Chatroid
         client.favorite(event["id"])
       end
 
+      def follow(event)
+        client.friend(event["user"]["id"])
+      end
+
       def user_info
         @user_info ||= client.info
       end
