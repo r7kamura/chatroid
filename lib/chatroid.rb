@@ -15,7 +15,7 @@ class Chatroid
 
   def run!
     validate_connection
-    adapter_class.new(config).connect
+    adapter.run!
   end
 
   private
@@ -63,6 +63,10 @@ class Chatroid
 
   def adapter_class
     Adapter.find(config[:service])
+  end
+
+  def adapter
+    adapter_class.new(config)
   end
 
   class ConnectionError < StandardError; end

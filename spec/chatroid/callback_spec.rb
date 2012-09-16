@@ -6,7 +6,7 @@ describe Chatroid::Callback do
     Class.new { include mod }.new
   end
 
-  describe ".on_xxx" do
+  describe "#on_xxx" do
     it "should store given block as callback" do
       callback = proc {}
       instance.on_xxx(&callback)
@@ -14,14 +14,14 @@ describe Chatroid::Callback do
     end
   end
 
-  describe ".list_xxx" do
-    context "before .on_xxx is called" do
+  describe "#list_xxx" do
+    context "before #on_xxx is called" do
       it do
         instance.list_xxx.should have(0).callback
       end
     end
 
-    context "after .on_yyy is called" do
+    context "after #on_yyy is called" do
       before do
         instance.on_yyy {}
       end
@@ -31,7 +31,7 @@ describe Chatroid::Callback do
       end
     end
 
-    context "after .on_xxx is called" do
+    context "after #on_xxx is called" do
       before do
         instance.on_xxx {}
       end
@@ -42,7 +42,7 @@ describe Chatroid::Callback do
     end
   end
 
-  describe ".trigger_xxx" do
+  describe "#trigger_xxx" do
     it "should trigger all callbacks for xxx" do
       callback = proc {}
       callback.should_receive(:call)
