@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Chatroid::Bot::Callback do
+describe Chatroid::Callback do
   let(:instance) do
     mod = described_class
     Class.new { include mod }.new
