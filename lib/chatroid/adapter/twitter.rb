@@ -8,10 +8,6 @@ class Chatroid
       private
 
       def connect
-        EventMachine.error_handler do |error|
-          puts "Error raised during event loop: #{error.message}"
-        end
-
         EventMachine::run do
           stream.each_item do |json|
             event = JSON.parse(json)
