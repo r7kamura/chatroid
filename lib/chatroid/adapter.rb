@@ -1,3 +1,5 @@
+require "chatroid/adapter/twitter"
+
 class Chatroid
   module Adapter
     def self.find(service_name)

@@ -15,7 +15,7 @@ class Chatroid
 
   def run!
     validate_connection
-    adapter.connect(self)
+    adapter.new(self).connect
   end
 
   private
