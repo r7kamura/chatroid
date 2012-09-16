@@ -55,6 +55,10 @@ class Chatroid
         client.update(body, :in_reply_to_status_id => id)
       end
 
+      def favorite(event)
+        client.favorite(event["id"])
+      end
+
       def user_info
         @user_info ||= client.info
       end
