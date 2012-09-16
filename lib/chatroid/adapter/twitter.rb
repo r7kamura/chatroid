@@ -20,10 +20,6 @@ class Chatroid
         end
       end
 
-      def user_info
-        @user_info ||= client.info
-      end
-
       def stream
         @stream ||= ::Twitter::JSONStream.connect(
           :host  => "userstream.twitter.com",
@@ -57,6 +53,10 @@ class Chatroid
         user = event["user"]["screen_name"]
         body = "@#{user} #{body}"
         client.update(body, :in_reply_to_status_id => id)
+      end
+
+      def user_info
+        @user_info ||= client.info
       end
 
       def on_each_event(event)
