@@ -15,6 +15,5 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Chatroid::VERSION
 
-  gem.add_dependency "hashie"
   gem.add_development_dependency "rspec"
 end
