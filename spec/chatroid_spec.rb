@@ -55,8 +55,10 @@ describe Chatroid do
         chatroid = Chatroid.new
         chatroid.stub(:has_service?).and_return(true)
         chatroid.stub(:has_adapter?).and_return(true)
+        chatroid.stub(:adapter_class)
+        chatroid.stub(:extend)
         chatroid.stub(:adapter).and_return(adapter)
-        adapter.should_receive(:connect)
+        chatroid.should_receive(:connect)
         chatroid.run!
       end
     end

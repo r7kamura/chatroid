@@ -15,7 +15,8 @@ class Chatroid
 
   def run!
     validate_connection
-    adapter.connect
+    extend(adapter)
+    connect
   end
 
   private
@@ -34,11 +35,6 @@ class Chatroid
 
   def configure(hash)
     config.merge!(hash)
-  end
-
-  # Post message via adapter
-  def post(*args)
-    adapter.post(*args)
   end
 
   def validate_connection
@@ -63,15 +59,11 @@ class Chatroid
   end
 
   def has_adapter?
-    has_service? && adapter_class
-  end
-
-  def adapter_class
-    Adapter.find(config[:service])
+    has_service? && adapter
   end
 
   def adapter
-    @adapter ||= adapter_class.new(self)
+    Adapter.find(config[:service])
   end
 
   class ConnectionError < StandardError; end

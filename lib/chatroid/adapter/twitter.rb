@@ -4,33 +4,25 @@ require "json"
 
 class Chatroid
   module Adapter
-    class Twitter
-      def initialize(chatroid)
-        @chatroid = chatroid
-      end
+    module Twitter
+      private
 
       def connect
         EventMachine.error_handler do |error|
           puts "Error raised during event loop: #{error.message}"
         end
-        EventMachine::run do
-          stream.each_item(&method(:on_each_event))
-        end
-      end
 
-      def post(body, options = {})
-        if options[:to]
-          reply(body, options[:to])
-        else
-          tweet(body)
+        EventMachine::run do
+          stream.each_item do |json|
+            event = JSON.parse(json)
+            on_each_event(event)
+          end
         end
       end
 
       def user_info
         @user_info ||= client.info
       end
-
-      private
 
       def stream
         @stream ||= ::Twitter::JSONStream.connect(
@@ -39,20 +31,20 @@ class Chatroid
           :port  => 443,
           :ssl   => true,
           :oauth => {
-            :consumer_key    => @chatroid.config[:consumer_key],
-            :consumer_secret => @chatroid.config[:consumer_secret],
-            :access_key      => @chatroid.config[:access_key],
-            :access_secret   => @chatroid.config[:access_secret],
+            :consumer_key    => config[:consumer_key],
+            :consumer_secret => config[:consumer_secret],
+            :access_key      => config[:access_key],
+            :access_secret   => config[:access_secret],
           }
         )
       end
 
       def client
         @client ||= TwitterOAuth::Client.new(
-          :consumer_key    => @chatroid.config[:consumer_key],
-          :consumer_secret => @chatroid.config[:consumer_secret],
-          :token           => @chatroid.config[:access_key],
-          :secret          => @chatroid.config[:access_secret]
+          :consumer_key    => config[:consumer_key],
+          :consumer_secret => config[:consumer_secret],
+          :token           => config[:access_key],
+          :secret          => config[:access_secret]
         )
       end
 
@@ -67,22 +59,13 @@ class Chatroid
         client.update(body, :in_reply_to_status_id => id)
       end
 
-      def on_each_event(json)
-        event = JSON.parse(json)
+      def on_each_event(event)
         case
         when event["in_reply_to_user_id"] == user_info["id"]
-          on_reply(event)
+          trigger_reply(event)
         when event["text"]
-          on_tweet(event)
+          trigger_tweet(event)
         end
-      end
-
-      def on_tweet(event)
-        @chatroid.trigger_tweet(event)
-      end
-
-      def on_reply(event)
-        @chatroid.trigger_reply(event)
       end
     end
   end
