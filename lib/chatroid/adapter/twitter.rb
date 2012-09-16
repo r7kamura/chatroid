@@ -17,6 +17,10 @@ class Chatroid
         client.update(body)
       end
 
+      def user_info
+        @user_info ||= @client.info
+      end
+
       private
 
       def stream
@@ -43,21 +47,21 @@ class Chatroid
         )
       end
 
-      def on_each_item(item)
+      def on_each_event(event)
         case
-        when item["in_reply_to_id"]
-          on_reply(item)
-        when item["text"]
-          on_tweet(item)
+        when event["in_reply_to_id"]
+          on_reply(event)
+        when event["text"]
+          on_tweet(event)
         end
       end
 
-      def on_tweet(item)
-        @chatroid.trigger_tweet(item)
+      def on_tweet(event)
+        @chatroid.trigger_tweet(event)
       end
 
-      def on_reply(item)
-        @chatroid.trigger_reply(item)
+      def on_reply(event)
+        @chatroid.trigger_reply(event)
       end
     end
   end
