@@ -19,7 +19,11 @@ class Chatroid
       end
 
       def post(body, options = {})
-        client.update(body)
+        if options[:to]
+          reply(body, options[:to])
+        else
+          tweet(body)
+        end
       end
 
       def user_info
@@ -52,9 +56,21 @@ class Chatroid
         )
       end
 
+      def tweet(body)
+        client.update(body)
+      end
+
+      def reply(body, event)
+        id   = event["id"]
+        user = event["user"]["screen_name"]
+        body = "@#{user} #{body}"
+        client.update(body, :in_reply_to_status_id => id)
+      end
+
       def on_each_event(json)
-        case event = JSON.parse(json)
-        when event["in_reply_to_status_id"]
+        event = JSON.parse(json)
+        case
+        when event["in_reply_to_user_id"] == user_info["id"]
           on_reply(event)
         when event["text"]
           on_tweet(event)
