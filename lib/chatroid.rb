@@ -36,6 +36,11 @@ class Chatroid
     config.merge!(hash)
   end
 
+  # Post message via adapter
+  def post(*args)
+    adapter.post(*args)
+  end
+
   def validate_connection
     validate_config
     validate_adapter
