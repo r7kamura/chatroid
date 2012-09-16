@@ -9,6 +9,8 @@ $ gem "chatroid"
 
 ## Example
 You can create your own bot working in a chat service.
+The following example creates a bot,
+which responds to tweets which include the word "yunotti" or any replies to it.
 
 ```ruby
 require "chatroid"
@@ -20,14 +22,15 @@ Chatroid.new do
   set :access_key,      "..."
   set :access_secret,   "..."
 
-  on_message do |event|
+  on_tweet do |event|
     if event["text"] =~ /yunotti/
-      post "✘╹◡╹✘"
+      favorite event
+      follow event
     end
   end
 
   on_reply do |event|
-    post "me too", :to => event
+    reply "✘╹◡╹✘", event
   end
 end.run!
 ```
@@ -36,4 +39,8 @@ end.run!
 Currently following services are supported:
 
 * Twitter
-* HipChat(WIP)
+
+I plan to support following services:
+
+* IRC
+* HipChat
