@@ -48,14 +48,15 @@ describe Chatroid do
 
           def connect
           end
-        end
+        end.new(mock)
       end
 
       it "should find adapter and call #connect of it" do
         chatroid = Chatroid.new
         chatroid.stub(:has_service?).and_return(true)
+        chatroid.stub(:has_adapter?).and_return(true)
         chatroid.stub(:adapter).and_return(adapter)
-        adapter.any_instance.should_receive(:connect)
+        adapter.should_receive(:connect)
         chatroid.run!
       end
     end
