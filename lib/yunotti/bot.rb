@@ -23,7 +23,6 @@ module Yunotti
 
     private
 
-    # Raise error if self cannot connect to a specified service
     def validate_connection
       validate_config
       validate_adapter
