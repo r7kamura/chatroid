@@ -9,19 +9,18 @@ class Chatroid
 
       def connect
         EventMachine::run do
-          stream = ::Twitter::JSONStream.connect(config)
           stream.each_item(&method(:on_each_item))
         end
       end
 
       def post(body, options = {})
-        # Not implemented yet
+        client.update(body)
       end
 
       private
 
-      def config
-        {
+      def stream
+        @stream ||= ::Twitter::JSONStream.connect(
           :host  => "userstream.twitter.com",
           :path  => "/2/user.json",
           :port  => 443,
@@ -31,8 +30,17 @@ class Chatroid
             :consumer_secret => @chatroid.config[:consumer_secret],
             :access_key      => @chatroid.config[:access_key],
             :access_secret   => @chatroid.config[:access_secret],
-          },
-        }
+          }
+        )
+      end
+
+      def client
+        @client ||= TwitterOAuth::Client.new(
+          :consumer_key    => @chatroid.config[:consumer_key],
+          :consumer_secret => @chatroid.config[:consumer_secret],
+          :token           => @chatroid.config[:access_key],
+          :secret          => @chatroid.config[:access_secret]
+        )
       end
 
       def on_each_item(item)
