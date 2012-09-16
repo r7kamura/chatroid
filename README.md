@@ -21,33 +21,19 @@ Chatroid.new do
   set :access_secret,   "..."
 
   on_message do |event|
-    post "Hello"
-  end
-
-  on_message /^Hi/ do |event|
-    post "Hi!"
+    if event["text"] =~ /yunotti/
+      post "✘╹◡╹✘"
+    end
   end
 
   on_reply do |event|
-    post "Hi!", :to => event
-  end
-
-  on_reply /^Nice to meet you/ do |event|
-    post "Nice to meet you too", :to => event
-  end
-
-  on_join do |event|
-    post "Nice to meet you, #{event.username}", :to => event
+    post "me too", :to => event
   end
 end.run!
 ```
 
-## API
+## Adapters
+Currently following services are supported:
 
-In the block of Chatroid.new, you can call following instance methods.
-
-* set
-* post
-* on_xxx
-
-xxx can be anything, and the adapter class for the specified service trigger on_xxx properly.
+* Twitter
+* HipChat(WIP)
