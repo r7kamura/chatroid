@@ -1,4 +1,4 @@
-module Yunotti
+module Chatroid
   class Bot
     module Callback
       # You can call methods like this:

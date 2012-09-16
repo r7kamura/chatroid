@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Yunotti::Bot do
+describe Chatroid::Bot do
   let(:instance) do
     described_class.new(args)
   end

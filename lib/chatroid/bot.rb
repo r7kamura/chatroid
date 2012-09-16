@@ -1,8 +1,8 @@
-require "yunotti/bot/callback"
-require "yunotti/bot/adapter"
+require "chatroid/bot/callback"
+require "chatroid/bot/adapter"
 require "hashie"
 
-module Yunotti
+module Chatroid
   class Bot
     include Callback
 

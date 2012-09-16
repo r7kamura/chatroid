@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/yunotti/version', __FILE__)
+require File.expand_path('../lib/chatroid/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Ryo NAKAMURA"]
@@ -11,9 +11,9 @@ Gem::Specification.new do |gem|
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
-  gem.name          = "yunotti"
+  gem.name          = "chatroid"
   gem.require_paths = ["lib"]
-  gem.version       = Yunotti::VERSION
+  gem.version       = Chatroid::VERSION
 
   gem.add_dependency "hashie"
   gem.add_development_dependency "rspec"

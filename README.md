@@ -1,8 +1,8 @@
-# Yunotti
+# Chatroid
 ✘╹◡╹✘
 
 ## Installation
 
 ```
-$ gem 'yunotti'
+$ gem "chatroid"
 ```
