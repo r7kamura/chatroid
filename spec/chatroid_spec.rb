@@ -2,42 +2,36 @@ require "spec_helper"
 
 describe Chatroid do
   let(:instance) do
-    described_class.new(args)
+    described_class.new
   end
 
-  let(:args) do
-    {}
-  end
-
-  describe "#initialize" do
-    context "when not given any arguments" do
-      it "should set empty hash as @config" do
-        instance.config.should == args
-      end
-    end
-
+  describe "#set" do
     context "when given a hash" do
-      let(:args) do
-        { "foo" => "bar" }
+      it "should set it to config" do
+        described_class.new { set :key => "val" }.config.should == { :key => "val" }
       end
+    end
 
-      it "should set it as @config" do
-        instance.config.should == args
+    context "when given two args" do
+      it "should set it to config as key-value config" do
+        described_class.new { set :key, "val" }.config.should == { :key => "val" }
+      end
+    end
+
+    context "when given args more than two args" do
+      it do
+        expect do
+          described_class.new { set 1, 2, 3 }
+        end.to raise_error(ArgumentError)
       end
     end
   end
 
-  describe "#config" do
-    it do
-      instance.config.should be_a(Hashie::Mash)
-    end
-  end
-
-  describe "#connect" do
+  describe "#run!" do
     context "when service to connect is not specified" do
       it do
         expect do
-          instance.connect
+          instance.run!
         end.to raise_error(described_class::ConnectionError)
       end
     end
@@ -50,7 +44,7 @@ describe Chatroid do
 
       it do
         expect do
-          instance.connect
+          instance.run!
         end.to raise_error(described_class::ConnectionError)
       end
     end
@@ -67,7 +61,7 @@ describe Chatroid do
         adapter_class.stub(:new).and_return(adapter)
         adapter.should_receive(:connect)
         instance.stub(:adapter_class).and_return(adapter_class)
-        instance.connect
+        instance.run!
       end
     end
   end
