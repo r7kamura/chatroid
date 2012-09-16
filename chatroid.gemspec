@@ -16,5 +16,6 @@ Gem::Specification.new do |gem|
   gem.version       = Chatroid::VERSION
 
   gem.add_dependency "twitter-stream"
+  gem.add_dependency "twitter_oauth"
   gem.add_development_dependency "rspec"
 end

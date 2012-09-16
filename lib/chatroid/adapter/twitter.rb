@@ -1,4 +1,6 @@
 require "twitter/json_stream"
+require "twitter_oauth"
+require "json"
 
 class Chatroid
   module Adapter
@@ -8,6 +10,9 @@ class Chatroid
       end
 
       def connect
+        EventMachine.error_handler do |error|
+          puts "Error raised during event loop: #{error.message}"
+        end
         EventMachine::run do
           stream.each_item(&method(:on_each_event))
         end
@@ -18,7 +23,7 @@ class Chatroid
       end
 
       def user_info
-        @user_info ||= @client.info
+        @user_info ||= client.info
       end
 
       private
@@ -47,9 +52,9 @@ class Chatroid
         )
       end
 
-      def on_each_event(event)
-        case
-        when event["in_reply_to_id"]
+      def on_each_event(json)
+        case event = JSON.parse(json)
+        when event["in_reply_to_status_id"]
           on_reply(event)
         when event["text"]
           on_tweet(event)
