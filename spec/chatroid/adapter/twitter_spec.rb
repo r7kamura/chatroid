@@ -16,4 +16,13 @@ describe Chatroid::Adapter::Twitter do
   end
 
   it_should_behave_like "interface of Chatroid::Adapter"
+
+  describe "#connect" do
+    it "should work in EventMachine::run" do
+      EventMachine.should_receive(:run) do |&block|
+        block.should be_a(Proc)
+      end
+      Chatroid::Adapter::Twitter.new(mock).connect
+    end
+  end
 end
