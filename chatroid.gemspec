@@ -3,10 +3,10 @@ require File.expand_path('../lib/chatroid/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Ryo NAKAMURA"]
-  gem.email         = ["ryo-nakamura@cookpad.com"]
+  gem.email         = ["r7kamura@gmail.com"]
   gem.description   = "Chatroid is a gem for quickly creating chatterbot in Ruby"
   gem.summary       = "Chatterbot builder"
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/r7kamura/chatroid"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
