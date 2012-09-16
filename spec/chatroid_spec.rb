@@ -41,13 +41,19 @@ describe Chatroid do
     end
 
     context "when specified service is supported" do
+      let(:adapter) do
+        Module.new do
+          def self.connect(chatroid)
+          end
+        end
+      end
+
       it "should find adapter and call #run! of it" do
-        adapter = mock
-        adapter.should_receive(:run!)
-        instance = Chatroid.new
-        instance.stub(:validate_connection)
-        instance.stub(:adapter).and_return(adapter)
-        instance.run!
+        chatroid = Chatroid.new
+        chatroid.stub(:has_service?).and_return(true)
+        chatroid.stub(:adapter).and_return(adapter)
+        adapter.should_receive(:connect)
+        chatroid.run!
       end
     end
   end
