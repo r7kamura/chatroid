@@ -10,10 +10,12 @@ class Chatroid
       def connect
         EventMachine::run do
           stream = ::Twitter::JSONStream.connect(config)
-          stream.each_item(&method(:on_message))
+          stream.each_item(&method(:on_each_item))
         end
-      rescue EventMachine::ConnectionError => e
-        p e
+      end
+
+      def post(body, options = {})
+        # Not implemented yet
       end
 
       private
@@ -25,16 +27,29 @@ class Chatroid
           :port  => 443,
           :ssl   => true,
           :oauth => {
-            :consumer_key    => "",
-            :consumer_secret => "",
-            :access_key      => "",
-            :access_secret   => "",
+            :consumer_key    => @chatroid.config[:consumer_key],
+            :consumer_secret => @chatroid.config[:consumer_secret],
+            :access_key      => @chatroid.config[:access_key],
+            :access_secret   => @chatroid.config[:access_secret],
           },
         }
       end
 
-      def on_message(item)
-        @chatroid.trigger_message(item.text)
+      def on_each_item(item)
+        case
+        when item["in_reply_to_id"]
+          on_reply(item)
+        when item["text"]
+          on_tweet(item)
+        end
+      end
+
+      def on_tweet(item)
+        @chatroid.trigger_tweet(item)
+      end
+
+      def on_reply(item)
+        @chatroid.trigger_reply(item)
       end
     end
   end
