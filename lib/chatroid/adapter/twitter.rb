@@ -1,3 +1,4 @@
+require "chatroid/adapter/twitter/event"
 require "twitter/json_stream"
 require "twitter_oauth"
 require "json"
@@ -9,10 +10,7 @@ class Chatroid
 
       def connect
         EventMachine::run do
-          stream.each_item do |json|
-            event = JSON.parse(json)
-            on_each_event(event)
-          end
+          stream.each_item &method(:on_each_item)
         end
       end
 
@@ -63,13 +61,9 @@ class Chatroid
         @user_info ||= client.info
       end
 
-      def on_each_event(event)
-        case
-        when event["in_reply_to_user_id"] == user_info["id"]
-          trigger_reply(event)
-        when event["text"]
-          trigger_tweet(event)
-        end
+      def on_each_item(json)
+        event = Event.new(json, user_info["id"])
+        send("trigger_#{event.type}", event.params)
       end
     end
   end
