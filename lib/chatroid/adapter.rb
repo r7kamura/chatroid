@@ -1,4 +1,5 @@
 require "chatroid/adapter/twitter"
+require "chatroid/adapter/hip_chat"
 
 class Chatroid
   module Adapter
