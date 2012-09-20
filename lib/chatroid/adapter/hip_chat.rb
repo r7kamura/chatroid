@@ -31,9 +31,8 @@ class Chatroid
 
       private
 
-      def post(body)
-        message = Jabber::Message.new(config[:room], body)
-        room.send(message)
+      def post(text)
+        room.say(text)
       end
 
       def connect
