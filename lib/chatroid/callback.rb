@@ -14,12 +14,6 @@ class Chatroid
 
     private
 
-    def callbacks
-      @callbacks ||= Hash.new do |hash, key|
-        hash[key] = []
-      end
-    end
-
     def list(type)
       callbacks[type]
     end
@@ -31,6 +25,12 @@ class Chatroid
     def trigger(type, *args)
       callbacks[type].each do |callback|
         callback.call(*args)
+      end
+    end
+
+    def callbacks
+      @callbacks ||= Hash.new do |hash, key|
+        hash[key] = []
       end
     end
   end
