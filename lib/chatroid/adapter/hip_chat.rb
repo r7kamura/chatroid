@@ -13,6 +13,16 @@ class Chatroid
         :password,
       ].freeze
 
+      EVENT_NAMES = [
+        :join,
+        :leave,
+        :message,
+        :private_message,
+        :room_message,
+        :self_leave,
+        :subject,
+      ].freeze
+
       def self.extended(chatroid)
         REQUIRED_CONFIG_KEYS.each do |key|
           Avalon.validate(chatroid.config[key], String)
@@ -28,8 +38,8 @@ class Chatroid
 
       def connect
         use_logger
-        room.on_message { |*args| trigger_message(*args) }
-        room.join(room_key)
+        bind_callbacks
+        join_room
         persist
       end
 
@@ -51,6 +61,10 @@ class Chatroid
         @room ||= Jabber::MUC::SimpleMUCClient.new(client)
       end
 
+      def join_room
+        room.join(room_key)
+      end
+
       def room_key
         config[:room] + "/" + config[:nick]
       end
@@ -59,6 +73,14 @@ class Chatroid
         if config[:logger]
           Jabber.logger = config[:logger]
           Jabber.debug  = true
+        end
+      end
+
+      def bind_callbacks
+        EVENT_NAMES.each do |name|
+          room.__send__("on_#{name}") do |*args|
+            __send__("trigger_#{name}", *args)
+          end
         end
       end
     end

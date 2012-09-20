@@ -37,19 +37,15 @@ describe Chatroid::Adapter::HipChat do
     before do
       Jabber::Client.stub(:new).and_return(client)
       Jabber::MUC::SimpleMUCClient.stub(:new).and_return(room)
-      client.stub(:connect)
-      client.stub(:auth)
-      room.stub(:on_message)
-      room.stub(:join)
       chatroid.stub(:persist)
     end
 
     let(:client) do
-      mock
+      mock.as_null_object
     end
 
     let(:room) do
-      mock
+      mock.as_null_object
     end
 
     it "should call Jabber::Client#connect" do
