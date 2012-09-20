@@ -8,9 +8,7 @@ $ gem "chatroid"
 ```
 
 ## Example
-You can create your own bot working in a chat service.
-The following example creates a bot,
-which responds to tweets including the word "yunotti" or any replies to it.
+Let's create your own bot working in a chat service, and let bot do it!
 
 ```ruby
 require "chatroid"
