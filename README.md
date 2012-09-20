@@ -35,12 +35,29 @@ Chatroid.new do
 end.run!
 ```
 
+```ruby
+require "chatroid"
+
+Chatroid.new do
+  set :service,  "HipChat"
+  set :room,     "12345_example@conf.hipchat.com"
+  set :jid,      "12345_67890@chat.hipchat.com"
+  set :nick,     "example"
+  set :password, "..."
+
+  on_message do |time, nick, text|
+    if text =~ /([\w-.]+@[\w-.]+)/
+      invite $1
+    end
+  end
+
+  on_private_message do |time, nick, text|
+    say "Hi, #{nick}"
+  end
+end.run!
+```
+
 ## Adapters
-Currently following services are supported:
-
 * Twitter
-
-I plan to support following services:
-
-* IRC
 * HipChat
+* IRC (in the planning stage, sorry)
