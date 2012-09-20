@@ -29,11 +29,55 @@ class Chatroid
         end
       end
 
-      private
-
-      def post(text)
+      def say(text)
         room.say(text)
       end
+
+      def invite(jid, reason = nil)
+        room.invite(jid => reason)
+      end
+
+      def kick(nick, reason = nil)
+        room.kick(nick, reason)
+      end
+
+      def ban(jid, reason = nil)
+        room.ban(jid, reason)
+      end
+
+      def unban(jid)
+        room.unban(jid)
+      end
+
+      def promote(nick)
+        room.prompt(nick)
+      end
+
+      def demote(nick)
+        room.demote(nick)
+      end
+
+      def join(jid, password = nil)
+        room.join(jid, password)
+      end
+
+      def exit(reason = nil)
+        room.exit(reason)
+      end
+
+      def subject=(text)
+        room.subject = text
+      end
+
+      def subject
+        room.subject
+      end
+
+      def nick
+        room.nick
+      end
+
+      private
 
       def connect
         use_logger
@@ -43,7 +87,7 @@ class Chatroid
       end
 
       def persist
-        trap(:INT) { exit }
+        trap(:INT) { Kernel.exit }
         loop { sleep 1 }
       end
 
