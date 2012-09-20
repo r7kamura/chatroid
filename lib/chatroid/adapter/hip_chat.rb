@@ -23,6 +23,8 @@ class Chatroid
         :subject,
       ].freeze
 
+      SLEEP_INTERVAL_SEC = 1
+
       def self.extended(chatroid)
         REQUIRED_CONFIG_KEYS.each do |key|
           Avalon.validate(chatroid.config[key], String)
@@ -88,7 +90,7 @@ class Chatroid
 
       def persist
         trap(:INT) { Kernel.exit }
-        loop { sleep 1 }
+        loop { sleep SLEEP_INTERVAL_SEC }
       end
 
       def client
