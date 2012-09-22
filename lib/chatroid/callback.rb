@@ -5,7 +5,7 @@ class Chatroid
     # * on_message      : store a given block as callback for "message"
     # * trigger_message : trigger callbacks for "message" with given args
     def method_missing(method_name, *args, &block)
-      if method_name =~ /(list|on|trigger)_([a-z]+)/
+      if method_name =~ /(list|on|trigger)_([a-z0-9]+)/
         send($1, $2, *args, &block)
       else
         super

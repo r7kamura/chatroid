@@ -55,7 +55,23 @@ Chatroid.new do
 end.run!
 ```
 
+```ruby
+require "chatroid"
+
+Chatroid.new do
+  set :service,  "Irc"
+  set :server,   "example.com"
+  set :port,     "6667"
+  set :channel,  "#chatroid"
+  set :username, "chatroid"
+
+  on_privmsg do |message|
+    privmsg "#chatroid", ":" + "hi, i am a chatroid"
+  end
+end.run!
+```
+
 ## Adapters
 * Twitter
 * HipChat
-* IRC (in the planning stage, sorry)
+* IRC
