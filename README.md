@@ -44,13 +44,9 @@ Chatroid.new do
   set :password, "..."
 
   on_message do |time, nick, text|
-    if text =~ /([\w-.]+@[\w-.]+)/
-      invite $1
+    if nick != config[:nick]
+      say "Hi, #{nick}"
     end
-  end
-
-  on_private_message do |time, nick, text|
-    say "Hi, #{nick}"
   end
 end.run!
 ```
