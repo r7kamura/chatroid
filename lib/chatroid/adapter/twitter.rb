@@ -2,6 +2,7 @@ require "chatroid/adapter/twitter/event"
 require "twitter/json_stream"
 require "twitter_oauth"
 require "json"
+require "cgi"
 
 class Chatroid
   module Adapter
@@ -80,7 +81,7 @@ class Chatroid
 
       def path
         config[:filter] ?
-          "/1.1/statuses/filter.json?track=#{config[:filter]}" :
+          "/1.1/statuses/filter.json?track=#{CGI.escape(config[:filter])}" :
           "/1.1/user.json"
       end
     end
