@@ -24,6 +24,7 @@ class Chatroid
 
       def observe
         client.on_message do |message|
+          trigger_message(message)
           send("trigger_#{message.type}", message)
         end
       end
