@@ -10,14 +10,15 @@ class Chatroid
 
       def connect
         EventMachine::run do
+          stream.on_error &method(:on_erorr)
           stream.each_item &method(:on_each_item)
         end
       end
 
       def stream
         @stream ||= ::Twitter::JSONStream.connect(
-          :host  => "userstream.twitter.com",
-          :path  => "/2/user.json",
+          :host  => host,
+          :path  => path,
           :port  => 443,
           :ssl   => true,
           :oauth => {
@@ -64,6 +65,23 @@ class Chatroid
       def on_each_item(json)
         event = Event.new(json, user_info["id"])
         send("trigger_#{event.type}", event.params)
+      end
+
+      def on_error(error)
+        p error
+        exit
+      end
+
+      def host
+        config[:filter] ?
+          "stream.twitter.com" :
+          "userstream.twitter.com"
+      end
+
+      def path
+        config[:filter] ?
+          "/1.1/statuses/filter.json?track=#{config[:filter]}" :
+          "/1.1/user.json"
       end
     end
   end

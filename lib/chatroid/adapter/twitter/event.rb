@@ -29,6 +29,8 @@ class Chatroid
             "reply"
           elsif tweet?
             "tweet"
+          else
+            "unknown"
           end
         end
 
