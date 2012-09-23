@@ -7,8 +7,13 @@ Chatroid is a gem for quickly creating chatterbot in Ruby.
 $ gem "chatroid"
 ```
 
+## Supported
+* IRC
+* Twitter
+* HipChat(xmpp)
+
 ## Example
-Let's create your own bot working in a chat service, and let bot do it!
+For more examples, please see [examples](https://github.com/r7kamura/chatroid/tree/master/lib).
 
 ```ruby
 require "chatroid"
@@ -21,53 +26,52 @@ Chatroid.new do
   set :access_secret,   "..."
 
   on_tweet do |event|
-    if event["text"] =~ /yunotti/
+    if event["text"] =~ /chatroid/
       favorite event
-      follow event
     end
   end
 
   on_reply do |event|
-    reply "✘╹◡╹✘", event
+    reply "Hi, i am a chatroid", event
   end
 end.run!
 ```
 
-```ruby
+## Deploy to Heroku
+
+```
+$ gem install heroku
+$ heroku login
+
+$ mkdir bot
+$ cd !$
+$ echo "bot: bundle exec ruby bot.rb" >> Procfile
+$ echo "source :rubygems" >> Gemfile
+$ echo "gem 'chatroid'"   >> Gemfile
+$ bundle install
+$ vim bot.rb
+
 require "chatroid"
 
 Chatroid.new do
-  set :service,  "HipChat"
-  set :room,     "12345_example@conf.hipchat.com"
-  set :jid,      "12345_67890@chat.hipchat.com"
-  set :nick,     "example"
-  set :password, "..."
+  set :service,         "Twitter"
+  set :filter,          "chatroid,Chatroid"
+  set :consumer_key,    ENV["CONSUMER_KEY"]
+  set :consumer_secret, ENV["CONSUMER_SECRET"]
+  set :access_key,      ENV["ACCESS_KEY"]
+  set :access_secret,   ENV["ACCESS_SECRET"]
 
-  on_message do |time, nick, text|
-    if nick != config[:nick]
-      say "Hi, #{nick}"
-    end
+  on_tweet do |event|
+    favorite event
+  end
+
+  on_reply do |event|
+    favorite event
   end
 end.run!
+
+$ heroku create your_favorite_bot_name --stack cedar
+$ heroku config:add CONSUMER_KEY=... CONSUMER_SECRET=... ACCESS_KEY=... ACCESS_SECRET=...
+$ git push heroku master
+$ heroku ps:scale bot=1
 ```
-
-```ruby
-require "chatroid"
-
-Chatroid.new do
-  set :service,  "Irc"
-  set :server,   "example.com"
-  set :port,     "6667"
-  set :channel,  "#chatroid"
-  set :username, "chatroid"
-
-  on_privmsg do |message|
-    privmsg "#chatroid", ":" + "hi, i am a chatroid"
-  end
-end.run!
-```
-
-## Adapters
-* Twitter
-* HipChat
-* IRC
