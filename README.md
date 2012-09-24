@@ -13,7 +13,7 @@ $ gem "chatroid"
 * HipChat(xmpp)
 
 ## Example
-For more examples, please see [examples](https://github.com/r7kamura/chatroid/tree/master/lib).
+For more examples, please see [examples](https://github.com/r7kamura/chatroid/tree/master/examples).
 
 ```ruby
 require "chatroid"
