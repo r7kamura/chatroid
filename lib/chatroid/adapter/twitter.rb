@@ -10,7 +10,7 @@ class Chatroid
       private
 
       def connect
-        EventMachine::run do
+        EventMachine.run do
           stream.on_error &method(:on_error)
           stream.each_item &method(:on_each_item)
         end
