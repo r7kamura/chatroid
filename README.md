@@ -35,7 +35,7 @@ Chatroid.new do
     reply "Hi, i am a chatroid", event
   end
 
-  on_time :hour => 12, :min => 0 do
+  on_time :hour => 12, :min => 0, :sec => 0 do
     tweet "Hello, world!"
   end
 end.run!
