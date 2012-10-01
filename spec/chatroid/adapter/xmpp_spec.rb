@@ -1,9 +1,9 @@
 require "spec_helper"
 
-describe Chatroid::Adapter::HipChat do
+describe Chatroid::Adapter::Xmpp do
   let(:chatroid) do
     Chatroid.new do
-      set :service, "HipChat"
+      set :service, "Xmpp"
       set :jid, "jid"
       set :room, "room@example.com"
       set :nick, "nick"
@@ -15,7 +15,7 @@ describe Chatroid::Adapter::HipChat do
     context "when chatroid has jid" do
       it do
         expect do
-          chatroid.extend(Chatroid::Adapter::HipChat)
+          chatroid.extend(Chatroid::Adapter::Xmpp)
         end.to_not raise_error(Avalon::ValidationError)
       end
     end
@@ -27,7 +27,7 @@ describe Chatroid::Adapter::HipChat do
 
       it do
         expect do
-          chatroid.extend(Chatroid::Adapter::HipChat)
+          chatroid.extend(Chatroid::Adapter::Xmpp)
         end.to raise_error(Avalon::ValidationError)
       end
     end

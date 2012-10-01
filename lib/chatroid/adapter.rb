@@ -1,6 +1,6 @@
 require "chatroid/adapter/irc"
 require "chatroid/adapter/twitter"
-require "chatroid/adapter/hip_chat"
+require "chatroid/adapter/xmpp"
 
 class Chatroid
   module Adapter

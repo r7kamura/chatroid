@@ -1,7 +1,7 @@
 require "chatroid"
 
 Chatroid.new do
-  set :service,  "HipChat"
+  set :service,  "Xmpp"
   set :room,     "12345_example@conf.hipchat.com"
   set :jid,      "12345_67890@chat.hipchat.com"
   set :nick,     "example"

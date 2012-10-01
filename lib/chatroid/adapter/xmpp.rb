@@ -5,7 +5,7 @@ require "logger"
 
 class Chatroid
   module Adapter
-    module HipChat
+    module Xmpp
       REQUIRED_CONFIG_KEYS = [
         :jid,
         :room,
