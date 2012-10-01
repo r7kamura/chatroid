@@ -1,9 +1,11 @@
 require "chatroid/version"
 require "chatroid/callback"
+require "chatroid/timer"
 require "chatroid/adapter"
 
 class Chatroid
   include Callback
+  include Timer
 
   def initialize(&block)
     instance_eval(&block) if block_given?
@@ -14,8 +16,10 @@ class Chatroid
   end
 
   def run!
+    Thread.abort_on_exception = true
     validate_connection
     extend(adapter)
+    start_timer unless events.empty?
     connect
   end
 
