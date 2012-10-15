@@ -1,3 +1,4 @@
+require "chatroid/adapter/campfire"
 require "chatroid/adapter/irc"
 require "chatroid/adapter/twitter"
 require "chatroid/adapter/xmpp"
