@@ -14,6 +14,7 @@ Gem::Specification.new do |gem|
   gem.name          = "chatroid"
   gem.require_paths = ["lib"]
   gem.version       = Chatroid::VERSION
+  gem.license       = 'MIT'
 
   gem.add_dependency "twitter-stream"
   gem.add_dependency "twitter_oauth"
