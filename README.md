@@ -10,7 +10,7 @@ $ gem install chatroid
 ## Supported
 * IRC
 * Twitter
-* [Campfire](http://campfirenow.com/)
+* Campfire
 * xmpp (Google Talk, HipChat, ...)
 
 ## Example
