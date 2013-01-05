@@ -21,10 +21,10 @@ require "chatroid"
 
 Chatroid.new do
   set :service,         "Twitter"
-  set :consumer_key,    "..."
-  set :consumer_secret, "..."
-  set :access_key,      "..."
-  set :access_secret,   "..."
+  set :consumer_key,    ENV["CONSUMER_KEY"]
+  set :consumer_secret, ENV["CONSUMER_SECRET"]
+  set :access_key,      ENV["ACCESS_KEY"]
+  set :access_secret,   ENV["ACCESS_SECRET"]
 
   on_tweet do |event|
     if event["text"] =~ /chatroid/
@@ -43,6 +43,11 @@ end.run!
 ```
 
 ## Deploy to Heroku
+1. Create Procfile, Gemfile, and bot.rb
+2. Execute `bundle install`
+3. Create app on Heroku
+4. Configure environment variables
+5. Deploy app
 
 ```
 $ gem install heroku
@@ -53,28 +58,8 @@ $ cd !$
 $ echo "bot: bundle exec ruby bot.rb" >> Procfile
 $ echo "source :rubygems" >> Gemfile
 $ echo "gem 'chatroid'"   >> Gemfile
-$ bundle install
 $ vim bot.rb
-
-require "chatroid"
-
-Chatroid.new do
-  set :service,         "Twitter"
-  set :filter,          "chatroid,Chatroid"
-  set :consumer_key,    ENV["CONSUMER_KEY"]
-  set :consumer_secret, ENV["CONSUMER_SECRET"]
-  set :access_key,      ENV["ACCESS_KEY"]
-  set :access_secret,   ENV["ACCESS_SECRET"]
-
-  on_tweet do |event|
-    favorite event
-  end
-
-  on_reply do |event|
-    favorite event
-  end
-end.run!
-
+$ bundle install
 $ heroku create your_favorite_bot_name --stack cedar
 $ heroku config:add CONSUMER_KEY=... CONSUMER_SECRET=... ACCESS_KEY=... ACCESS_SECRET=...
 $ git push heroku master
