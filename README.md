@@ -7,6 +7,9 @@ Chatroid is a gem for quickly creating chatterbot in Ruby.
 $ gem install chatroid
 ```
 
+## Requirements
+* Ruby >= 1.9
+
 ## Supported
 * IRC
 * Twitter
