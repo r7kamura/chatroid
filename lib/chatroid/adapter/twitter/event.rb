@@ -29,6 +29,8 @@ class Chatroid
             "reply"
           elsif tweet?
             "tweet"
+          elsif favorite?
+            "favorite_other"
           else
             "unknown"
           end
@@ -50,6 +52,10 @@ class Chatroid
 
         def tweet?
           @params["text"]
+        end
+
+        def favorite?
+          @params["event"] == "favorite"
         end
       end
     end
