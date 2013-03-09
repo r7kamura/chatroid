@@ -14,6 +14,10 @@ describe Chatroid::Adapter::Twitter::Event do
       1
     end
 
+    let (:other_id) do
+      2
+    end
+
     context "when favorited" do
       let(:args) do
         { "event" => "favorite", "target" => { "id" => user_id } }
@@ -21,6 +25,16 @@ describe Chatroid::Adapter::Twitter::Event do
 
       it do
         should == "favorite"
+      end
+    end
+
+    context "when user favorited other's tweet" do
+      let(:args) do
+        { "event" => "favorite", "target" => { "id" => other_id } }
+      end
+
+      it do
+        should == "favorite_other"
       end
     end
 
