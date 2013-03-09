@@ -56,4 +56,14 @@ describe Chatroid::Callback do
       instance.trigger_xxx(args)
     end
   end
+
+  describe "#method_missing" do
+    it "should hundle under_score event like x_x" do
+      callback = proc {}
+      callback.should_receive(:call)
+      instance.on_x_x(&callback)
+      instance.send(:list, 'x_x').should_not be_empty
+      instance.trigger_x_x
+    end
+  end
 end
