@@ -2,6 +2,16 @@ require "avalon"
 require "xmpp4r"
 require "xmpp4r/muc/helper/simplemucclient"
 require "logger"
+require "rexml/source"
+
+# Support multybyte characters.
+class REXML::IOSource
+  def read
+    @buffer << readline.force_encoding("utf-8")
+  rescue Exception, NameError
+    @source = nil
+  end
+end
 
 class Chatroid
   module Adapter
